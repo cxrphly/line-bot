@@ -1,0 +1,13 @@
+#pragma once
+#include <QTRSensors.h>
+#include "Config.h"
+
+extern QTRSensors qtr;
+extern uint16_t sensorValues[8];
+extern const uint8_t SensorCount;
+
+void setupQTR();
+void startCalibration();
+void processCalibration();
+void lineFollowerControl();
+void debugQTR(uint16_t position, int error, int motorCorr, int left, int right);
