@@ -2,7 +2,7 @@
 #include "LineFollower.h"
 #include "Config.h"
 #include "motors.h"
-
+// o proximo grande passo desse projeto será melhorar o modo seguidor de linha seguindo o regulamento da ROBOCORE.
 QTRSensors qtr;
 uint16_t sensorValues[8];
 

@@ -14,13 +14,14 @@
 #define AIN1  5
 #define AIN2  18
 #define PWMA  19
+
 #define BIN1  4
 #define BIN2  2
 #define PWMB  15
 
 #define CHANNEL_A  0
 #define CHANNEL_B  1
-#define PWM_FREQ     1000
+#define PWM_FREQ 1000
 #define PWM_RES_BITS 8
 
 #define QTR_D1 14
