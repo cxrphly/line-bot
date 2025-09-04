@@ -117,16 +117,51 @@ void showLineFollowerMenu() {
         display.setCursor(10, 16 + i * 10);
         display.print(i == lfMenuIndex ? "> " : "  ");
         display.print(lfMenuItems[i]);
-
-        char buf[10];
         if (i == 0) display.print(lineFollowerActive ? " [X]" : " [ ]");
-        else if (i == 2) { dtostrf(Kp, 4, 2, buf); display.print(" : "); display.print(buf); }
-        else if (i == 3) { dtostrf(Kd, 4, 2, buf); display.print(" : "); display.print(buf); }
-        else if (i == 4) { display.print(" : "); display.print(threshold); }
         display.println();
     }
     display.display();
 }
+
+void showConfigMenu() {
+    display.clearDisplay();
+    display.setTextSize(1);
+    display.setTextColor(SSD1306_WHITE);
+
+    int16_t x, z;
+    uint16_t w, h;
+    display.getTextBounds("Config Menu", 0, 0, &x, &z, &w, &h);
+    display.setCursor((SCREEN_WIDTH - w) / 2, 2);
+    display.println("Config Menu");
+
+    for (int i = 0; i < cfgMenuItemCount; i++) {
+        display.setCursor(10, 16 + i * 10);
+        display.print(i == cfgMenuIndex ? "> " : "  ");
+        display.print(cfgMenuItems[i]);
+
+        char buf[10];
+
+        if (strcmp(cfgMenuItems[i], "Kp") == 0) {
+            dtostrf(Kp, 4, 2, buf); display.print(" : "); display.print(buf);
+        }
+        else if (strcmp(cfgMenuItems[i], "Ki") == 0) {
+            dtostrf(Ki, 4, 2, buf); display.print(" : "); display.print(buf);
+        }
+        else if (strcmp(cfgMenuItems[i], "Kd") == 0) {
+            dtostrf(Kd, 4, 2, buf); display.print(" : "); display.print(buf);
+        }
+        else if (strcmp(cfgMenuItems[i], "Treshold") == 0) {
+            itoa(threshold, buf, 10); display.print(" : "); display.print(buf);
+        }
+        else if (strcmp(cfgMenuItems[i], "MaxSpeed") == 0) {
+            itoa(maxSpeed, buf, 10); display.print(" : "); display.print(buf);
+        }
+
+        display.println();
+    }
+    display.display();
+}
+
 
 void showControllerInfo(ControllerPtr ctl) {
     display.clearDisplay();

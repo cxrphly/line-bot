@@ -11,8 +11,9 @@ ControllerPtr myControllers[BP32_MAX_GAMEPADS] = {nullptr};
 int maxSpeed = 200;
 float Kp = 0.05f;
 float Kd = 0.25f;
-int lastError = 0;
-int threshold = 700;
+float Ki = 0.05f;
+float lastError = 0;
+int threshold = 900;
 float filteredError = 0;
 
 AppState appState = STATE_SPLASH;
@@ -21,24 +22,32 @@ int menuIndex = 0;
 bool lineFollowerActive = false;
 bool controllerModeActive = false;
 
-const int menuItemCount = 4;
+const int menuItemCount = 5;
 const char* menuItems[] = {
   "@Line Follower",
   "$Manual",
   "@Ver Eixos",
-  "@Ver Botoes"
+  "@Ver Botoes",
+  "Configurar"
   };
 
 int lfMenuIndex = 0;
-const int lfMenuItemCount = 5;
+const int lfMenuItemCount = 3;
 const char* lfMenuItems[] = {
   "$Ativar",
   "#Calibrar",
-  "*Kp",
-  "*Kd",
-  "*Threshold"
+    "Configurar"
   };
 
+int cfgMenuIndex = 0;
+const int cfgMenuItemCount = 5;
+const char* cfgMenuItems[] = {
+    "Kp",
+    "Ki",
+    "Kd",
+    "Treshold",
+    "MaxSpeed"
+};
 unsigned long lastDebug = 0;
 const unsigned long debugInterval = 100;
 unsigned long lastInputTime = 0;
@@ -46,7 +55,8 @@ const unsigned long inputDelay = 200;
 
 void setup() {
   Serial.begin(115200);
-
+  setupQTR();
+  loadConfig();
   pinMode(AIN1, OUTPUT);
   pinMode(AIN2, OUTPUT);
   pinMode(BIN1, OUTPUT);
@@ -61,25 +71,39 @@ void setup() {
   display.clearDisplay();
   display.display();
 
-  setupQTR();
 
   BP32.setup(&onConnectedController, &onDisconnectedController);
 }
 
 void loop() {
-  BP32.update();
-  processCalibration();
+    BP32.update();
+    processCalibration();
 
-  bool controleConectado = false;
-  for (int i = 0; i < BP32_MAX_GAMEPADS; i++) {
-    if (myControllers[i] && myControllers[i]->isConnected()) {
-      processGamepad(myControllers[i]);
-      controleConectado = true;
-      break;
+    bool controleConectado = false;
+    for (int i = 0; i < BP32_MAX_GAMEPADS; i++) {
+        if (myControllers[i] && myControllers[i]->isConnected()) {
+            processGamepad(myControllers[i]);
+            controleConectado = true;
+            break;
+        }
     }
-  }
 
-  if (!controleConectado) showSplashScreen();
+    if (!controleConectado) {
+        showSplashScreen();
+    }
 
-  if (lineFollowerActive) lineFollowerControl();
+    if (lineFollowerActive) {
+        lineFollowerControl();
+    } 
+    else if (controllerModeActive) {
+        for (int i = 0; i < BP32_MAX_GAMEPADS; i++) {
+            if (myControllers[i] && myControllers[i]->isConnected()) {
+                controlMotors(myControllers[i]); 
+                break;
+            }
+        }
+    } 
+    else {
+        setMotor(0, 0);
+    }
 }

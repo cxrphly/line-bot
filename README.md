@@ -87,7 +87,6 @@ Repositório: [https://github.com/cxrphly/line-bot](https://github.com/cxrphly/l
    #define AIN1  5
    #define AIN2  18
    #define PWMA  19
-   
    #define BIN1  4
    #define BIN2  2
    #define PWMB  15
@@ -254,10 +253,5 @@ MISC_BUTTON_HOME LITERAL1
  ```
 
 ---
-## A Fazer
-- [ ] Melhorar a calibração.
-- [ ] Corrigir bug da alternância de modos.
-- [ ] Melhorar do Modo Autonomo seguindo o Regulamento da ROBOCORE. 
 
----
 ## Agradeço a comunidade open-source por tornar esse projeto possivel.

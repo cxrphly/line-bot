@@ -14,14 +14,13 @@
 #define AIN1  5
 #define AIN2  18
 #define PWMA  19
-
 #define BIN1  4
 #define BIN2  2
 #define PWMB  15
 
 #define CHANNEL_A  0
 #define CHANNEL_B  1
-#define PWM_FREQ 1000
+#define PWM_FREQ     1000
 #define PWM_RES_BITS 8
 
 #define QTR_D1 14
@@ -38,7 +37,8 @@ constexpr uint8_t SensorCount = 8;
 extern int maxSpeed;
 extern float Kp;
 extern float Kd;
-extern int lastError;
+extern float Ki;
+extern float lastError;
 extern int threshold;
 extern float filteredError;
 
@@ -47,7 +47,8 @@ enum AppState {
   STATE_MENU,
   STATE_EIXOS,
   STATE_BOTOES,
-  STATE_LINEFOLLOWER_MENU
+  STATE_LINEFOLLOWER_MENU,
+  STATE_CONFIG_MENU
 };
 extern AppState appState;
 
@@ -61,6 +62,10 @@ extern const char* menuItems[];
 extern int lfMenuIndex;
 extern const int lfMenuItemCount;
 extern const char* lfMenuItems[];
+
+extern int cfgMenuIndex;
+extern const int cfgMenuItemCount;
+extern const char* cfgMenuItems[];
 
 extern unsigned long lastDebug;
 extern const unsigned long debugInterval;

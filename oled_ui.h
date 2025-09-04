@@ -6,6 +6,7 @@ extern Adafruit_SSD1306 display;
 
 void showSplashScreen();
 void showMainMenu();
+void showConfigMenu();
 void showLineFollowerMenu();
 void showControllerInfo(ControllerPtr ctl);
 void showButtonsInfo(ControllerPtr ctl);
